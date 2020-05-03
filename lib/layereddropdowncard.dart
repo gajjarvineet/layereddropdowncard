@@ -115,3 +115,7 @@ class _LayeredDropdownState extends State<LayeredDropdown>
     );
   }
 }
+
+Key getDropDownStateKey() {
+  return new GlobalKey<_LayeredDropdownState>();
+}

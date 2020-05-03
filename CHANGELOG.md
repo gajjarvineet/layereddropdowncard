@@ -1,4 +1,4 @@
-## [0.0.1] - 03-05-2020
+## [0.1.0] - 03-05-2020
 
 Simple Two Layered Widget allowing to add two layers of views on screen.
 The bottom layer is hidden by the top layer and only visible when the above layer is moved using a click action.
