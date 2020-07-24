@@ -8,6 +8,7 @@ class LayeredDropdown extends StatefulWidget {
 
   final Widget hiddenChild;
   final Widget cardChild;
+  final Widget topCard;
 
   //Animation Variables
   final Duration animationDuration;
@@ -20,6 +21,7 @@ class LayeredDropdown extends StatefulWidget {
   final Function openerIconClicked;
 
   LayeredDropdown({
+    this.topCard,
     this.openerIconClicked,
     this.key,
     this.hiddenChild,
@@ -29,7 +31,11 @@ class LayeredDropdown extends StatefulWidget {
     this.minSpace = 45.0,
     this.maxSpace = 300.0,
     this.cardChild,
-  }) : super(key: key);
+  }) : super(key: key) {
+    if (topCard != null && cardChild != null) {
+      throw "Either topCard or cardChild must me null.";
+    }
+  }
 
   @override
   _LayeredDropdownState createState() => _LayeredDropdownState();
@@ -81,7 +87,7 @@ class _LayeredDropdownState extends State<LayeredDropdown>
     });
   }
 
-  void _moveCard() {
+  void moveCard() {
     print('moveCardPressed');
     if (_animationController.status == AnimationStatus.completed) {
       _animationController.reverse();
@@ -97,25 +103,32 @@ class _LayeredDropdownState extends State<LayeredDropdown>
     return Stack(
       children: <Widget>[
         GestureDetector(
-          child: widget.hiddenChild ??
-              Container(
-                height: _currentSpace,
-                color: Colors.transparent,
-              ),
-          onTap: _moveCard,
+          child: widget.hiddenChild == null
+              ? Container(
+                  height: _currentSpace,
+                  color: Colors.transparent,
+                )
+              : Container(
+                  height: _minSpace + _maxSpace,
+                  child: widget.hiddenChild,
+                ),
+          onTap: moveCard,
         ),
-        DropDownCard(
-          topSpacing: _currentSpace,
-          child: widget.cardChild ?? Container(),
-          onOpenerIconClicked: widget.openerIconClicked == null
-              ? () {}
-              : widget.openerIconClicked,
+        Container(
+          margin: EdgeInsets.only(top: _currentSpace),
+          child: widget.topCard ??
+              DropDownCard(
+                child: widget.cardChild ?? Container(),
+                onOpenerIconClicked: widget.openerIconClicked == null
+                    ? () {}
+                    : widget.openerIconClicked,
+              ),
         )
       ],
     );
   }
 }
 
-Key getDropDownStateKey() {
+GlobalKey<_LayeredDropdownState> getDropDownStateKey() {
   return new GlobalKey<_LayeredDropdownState>();
 }

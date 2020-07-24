@@ -7,19 +7,20 @@ const kCardShape = RoundedRectangleBorder(
   ),
 );
 
+const Color kOpenerIconDefaultSplashColour = Colors.transparent;
+const Color kOpenerIconDefaultHighlightColour = Colors.transparent;
+
 class DropDownCard extends StatefulWidget {
   DropDownCard({
-    @required this.topSpacing,
     @required this.onOpenerIconClicked,
     this.child,
     this.openerIcon = Icons.dehaze,
     this.openerIconColor = Colors.grey,
-    this.openerIconSplashColor,
-    this.openerIconHighlightColor,
+    this.openerIconSplashColor = kOpenerIconDefaultSplashColour,
+    this.openerIconHighlightColor = kOpenerIconDefaultHighlightColour,
     this.shape = kCardShape,
   });
 
-  final double topSpacing;
   final Function onOpenerIconClicked;
   final IconData openerIcon;
   final Color openerIconColor;
@@ -36,10 +37,10 @@ class _DropDownCardState extends State<DropDownCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.symmetric(horizontal: 0.0),
       elevation: 40.0,
       clipBehavior: Clip.hardEdge,
       shape: widget.shape,
-      margin: EdgeInsets.only(top: widget.topSpacing),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
